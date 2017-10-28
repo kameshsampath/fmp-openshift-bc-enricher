@@ -5,18 +5,18 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.workspace7.fmp</groupId>
-  <artifactId>fmp-openshift-bc-enricher</artifactId>
+  <artifactId>fmp-openshift-bc-jenkins-enricher</artifactId>
   <version>0.1-SNAPSHOT</version>
 
   <name>OpenShift BuildConfig Enricher</name>
   <description>The Enricher that wil be used with fabric8-maven-plugin to enrich resources with build config objects
   </description>
 
-  <url>https://github.com/kameshsampath/fmp-openshift-bc-enricher</url>
+  <url>https://github.com/kameshsampath/fmp-openshift-bc-jenkins-enricher</url>
 
   <issueManagement>
     <system>GitHub</system>
-    <url>https://github.com/kameshsampath/fmp-openshift-bc-enricher/issues/</url>
+    <url>https://github.com/kameshsampath/fmp-openshift-bc-jenkins-enricher/issues/</url>
   </issueManagement>
 
   <developers>
@@ -40,15 +40,17 @@
   </licenses>
 
   <scm>
-    <connection>scm:git:https://github.com/kameshsampath/fmp-openshift-bc-enricher.git</connection>
-    <developerConnection>scm:git:ssh://git@/github.com/kameshsampath/fmp-openshift-bc-enricher.git</developerConnection>
-    <url>https://github.com/kameshsampath/fmp-openshift-bc-enricher</url>
+    <connection>scm:git:https://github.com/kameshsampath/fmp-openshift-bc-jenkins-enricher.git</connection>
+    <developerConnection>scm:git:ssh://git@/github.com/kameshsampath/fmp-openshift-bc-jenkins-enricher.git</developerConnection>
+    <url>https://github.com/kameshsampath/fmp-openshift-bc-jenkins-enricher</url>
     <tag>HEAD</tag>
   </scm>
 
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <license-maven-plugin.version>3.0</license-maven-plugin.version>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
     <fabric8-maven-enricher-api.version>3.5.32</fabric8-maven-enricher-api.version>
@@ -106,5 +108,50 @@
     </dependency>
 
   </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>com.mycila</groupId>
+        <artifactId>license-maven-plugin</artifactId>
+        <version>${license-maven-plugin.version}</version>
+        <configuration>
+          <header>licenses/ASLv2.txt</header>
+          <properties>
+            <year>2017-present</year>
+            <owner>Kamesh Sampath</owner>
+            <email>kamesh.sampath@hotmail.com</email>
+          </properties>
+          <excludes>
+            <exclude>**/README.*</exclude>
+            <exclude>**/LICENSE</exclude>
+            <exclude>**/.gitkeep</exclude>
+            <exclude>**/settings.xml</exclude>
+            <exclude>docker/**</exclude>
+            <exclude>circle.yml</exclude>
+            <exclude>appveyor.yml</exclude>
+            <exclude>.mvn/**</exclude>
+            <exclude>.editorconfig</exclude>
+            <exclude>mvnw.cmd</exclude>
+            <exclude>mvnw</exclude>
+            <exclude>pom.xml</exclude>
+            <exclude>licenses/**</exclude>
+            <exclude>examples/**</exclude>
+            <exclude>src/main/fabric8/**</exclude>
+            <exclude>src/test/resources/**</exclude>
+            <exclude>src/main/resources/**</exclude>
+          </excludes>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>install</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>

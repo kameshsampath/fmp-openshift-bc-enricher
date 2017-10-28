@@ -1,0 +1,61 @@
+= Examples
+
+All examples are maintained seperate github repos, each example below shows the repo from where they can be
+cloned.
+
+== helloboot
+
+This is a very simple Spring Boot project that says hello world, with Jenkins spice added to it.  It uses
+the default OpenShift Jenkins `maven` slave node for running Jenkins jobs
+
+[source,sh]
+---
+git clone https://github.com/kameshsampath/helloboot
+./mvnw clean fabric8:deploy
+---
+
+Once fabric8:deploy is successful you will see a Jenkins Pipeline in the OpenShift
+
+image::./helloboot_pipeline.png
+
+
+[NOTE]
+===
+* First builds will usually take time as jenkins image needs to pulled
+===
+
+== helloboot-nexus
+
+This is a very simple Spring Boot project that says hello world, with Jenkins spice added to it.  It uses
+the default OpenShift Jenkins `maven` slave node for running Jenkins jobs.
+The Jenkins slaves will use Nexus as a Maven Mirror configured via env variable `MAVEN_MIRROR_URL`
+
+[source,sh]
+---
+git clone https://github.com/kameshsampath/helloboot-nexus
+
+oc apply -f nexus-openshift.yml
+
+./mvnw clean fabric8:deploy
+---
+
+Once fabric8:deploy is successful you will see a Jenkins Pipeline in the OpenShift
+
+image::./helloboot_pipeline.png
+
+== OpenShift Role and Role Bindings
+
+Since the default service account of the the project does not have enough privileges to do some OpenShift operations,
+we need to add the role and binding. For this purpose we will create a Role Binding called `edit_jenkins_slave`
+and attach same ot service Account called `helloboot`.  To get that configured excute the following commands
+form the examples directory of the project
+
+[source,sh]
+----
+cd $PROJECT_HOME/examples
+
+oc apply -f openshift
+
+----
+
+image::./helloboot-nexus_pipeline.png

@@ -1,12 +1,12 @@
-= fabric8 Maven Plugin OpenShift Build Config Enricher
+= fabric8 Maven Plugin OpenShift Build Config Jenkins Enricher
 
-This fabric8 maven plugin enricher API allows the `fabric8:deploy` goal to create a build config using
+This fabric8 maven plugin enricher API allows the `fabric8:deploy` goal to create a build config with Jenkins Pipeline
+Build Strategy
 
 https://docs.openshift.org/latest/install_config/configuring_pipeline_execution.html[Configuring Pipeline Execution]
 
 [WARNING]
 ====
- * Currently supports only Jenkins Pipeline Build Strategy
  * This enricher is still under development, and expect changes
 ====
 
@@ -14,7 +14,7 @@ https://docs.openshift.org/latest/install_config/configuring_pipeline_execution.
 
 This plugin is not available in maven central, so you have to build and install locally before proceeding further.
 
-Clone the repo https://github.com/kameshsampath/fmp-openshift-bc-enricher and run `./mvnw clean install` from $PROJECT_HOME
+Clone the repo https://github.com/kameshsampath/fmp-openshift-bc-jenkins-enricher and run `./mvnw clean install` from $PROJECT_HOME
 
 == Usage
 
@@ -39,7 +39,7 @@ The following example shows a profile which can be used in conjunction with spri
     - fmp-merge
     - fmp-remove-build-annotations
     - fmp-volume-permission
-    - fmp-openshift-bc-enricher
+    - fmp-openshift-bc-jenkins-enricher
     - f8-expose
     # Health checks
     - spring-boot-health-check
@@ -69,7 +69,7 @@ Add the following fabric8-maven-plugin configuration to the project,
      <dependencies>
        <dependency>
          <groupId>org.workspace7.fmp</groupId>
-         <artifactId>fmp-openshift-bc-enricher</artifactId> <1>
+         <artifactId>fmp-openshift-bc-jenkins-enricher</artifactId> <1>
          <version>0.1-SNAPSHOT</version>
        </dependency>
      </dependencies>
@@ -78,10 +78,10 @@ Add the following fabric8-maven-plugin configuration to the project,
        <profile>jenkins-springboot-app</profile> <2>
        <enricher>
          <config>
-         <fmp-openshift-bc-enricher>
+         <fmp-openshift-bc-jenkins-enricher>
            <genericSecret>abcde</genericSecret> <3>
            <githubWebHookSecret>wxyz</githubWebHookSecret> <4>
-         </fmp-openshift-bc-enricher>
+         </fmp-openshift-bc-jenkins-enricher>
          </config>
        </enricher>
      </configuration>
@@ -96,7 +96,7 @@ Add the following fabric8-maven-plugin configuration to the project,
      </executions>
 </plugin>
 ----
-<1> add the fmp-openshift-bc-enricher as dependnecy to the fabric8-maven-plugin
+<1> add the fmp-openshift-bc-jenkins-enricher as dependnecy to the fabric8-maven-plugin
 <2> should be name that was used in the `profiles.yaml` above
 <3> The Generic secret that will be used to trigger the build
 <4> The GitHub Webhook Secret that will be used to trigger the build
@@ -120,8 +120,9 @@ node("fmp-maven") {
 [NOTE]
 ====
 
-This is a sample Jenkins file, for more samples refer to resources <<jenkinsfile-samples>>
+* This is a sample Jenkins file, for more samples refer to resources <<jenkinsfile-samples>>
 
+* First builds will usually take time as jenkins image needs to pulled
 ====
 
 == Resources

@@ -1,7 +1,0 @@
-spec:
-  template:
-    containers:
-      spec:
-        - env:
-          - name: JAVA_ENABLE_DEBUG
-            value: true
